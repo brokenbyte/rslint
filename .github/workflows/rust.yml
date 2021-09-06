@@ -32,6 +32,7 @@ jobs:
         with:
           rust-version: ${{ matrix.rust }}
           components: clippy,rustfmt
+          submodules: 'none'
 
       - name: Load Rust Cache
         uses: Swatinem/rust-cache@v1
@@ -57,56 +58,56 @@ jobs:
           RUSTDOCFLAGS: -Dwarnings
         run: cargo doc --workspace --all-features --document-private-items --no-deps
 
-  coverage:
-    name: Test262 coverage
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-        with:
-          submodules: 'recursive'
+  # coverage:
+    # name: Test262 coverage
+    # runs-on: ubuntu-latest
+    # steps:
+      # - name: Checkout repository
+        # uses: actions/checkout@v2
+        # with:
+          # submodules: 'recursive'
 
-      - name: Setup Rust
-        uses: hecrj/setup-rust-action@v1
+      # - name: Setup Rust
+        # uses: hecrj/setup-rust-action@v1
 
-      - name: Load Rust Cache
-        uses: Swatinem/rust-cache@v1
+      # - name: Load Rust Cache
+        # uses: Swatinem/rust-cache@v1
 
-      - name: Run Test262 suite
-        continue-on-error: true
-        run: cargo xtask coverage
+      # - name: Run Test262 suite
+        # continue-on-error: true
+        # run: cargo xtask coverage
 
-  benchmark:
-    name: Benchmarks
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-        with:
-          submodules: 'recursive'
+  # benchmark:
+    # name: Benchmarks
+    # runs-on: ubuntu-latest
+    # steps:
+      # - name: Checkout repository
+        # uses: actions/checkout@v2
+        # with:
+          # submodules: 'recursive'
 
-      - name: Setup Rust
-        uses: hecrj/setup-rust-action@v1
+      # - name: Setup Rust
+        # uses: hecrj/setup-rust-action@v1
 
-      - name: Load Rust Cache
-        uses: Swatinem/rust-cache@v1
+      # - name: Load Rust Cache
+        # uses: Swatinem/rust-cache@v1
 
-      - name: Install Node.js
-        uses: actions/setup-node@v2-beta
-        with:
-          node-version: "14"
+      # - name: Install Node.js
+        # uses: actions/setup-node@v2-beta
+        # with:
+          # node-version: "14"
 
-      - name: Install Deno
-        uses: denolib/setup-deno@master
-        with:
-          deno-version: v1.10.1
+      # - name: Install Deno
+        # uses: denolib/setup-deno@master
+        # with:
+          # deno-version: v1.10.1
 
-      - name: Install npm packages
-        run: npm install --ci
-        working-directory: benchmarks
+      # - name: Install npm packages
+        # run: npm install --ci
+        # working-directory: benchmarks
 
-      - name: Build
-        run: cargo build --release -p rslint_cli
+      # - name: Build
+        # run: cargo build --release -p rslint_cli
 
-      - name: Run Benchmarks
-        run: deno run -A --quiet benchmarks/bench.ts
+      # - name: Run Benchmarks
+        # run: deno run -A --quiet benchmarks/bench.ts
